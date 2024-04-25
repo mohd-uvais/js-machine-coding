@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .counter {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            font-size: 18px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .active {
+            background-color: green;
+        }
+
+        .disabled {
+            background-color: grey;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="counter">
+        <button class="btn" id="decrement">-</button>
+        <span id="count">0</span>
+        <button class="btn" id="increment">+</button>
+        <button class="btn" id="reset">Reset</button>
+        <button class="btn" id="auto">Auto</button>
+    </div>
+
+    <script>
+        const inc = document.querySelector('#increment');
+        const dec = document.querySelector('#decrement');
+        const count = document.querySelector('#count');
+        const reset = document.querySelector('#reset');
+        const auto = document.querySelector('#auto');
+        let counterval = 0;
+        inc.addEventListener('click', () => {
+            counterval++;
+            count.innerText = counterval;
+        });
+        dec.addEventListener('click', () => {
+
+            if (counterval > 0) {
+                counterval--;
+                count.innerText = counterval;
+            }
+        });
+
+        reset.addEventListener('click', () => {
+            counterval = 0;
+            count.innerText = counterval;
+        });
+        let myInterval;
+        auto.addEventListener('click', () => {
+
+            counterval = 0;
+            count.innerText = counterval;
+
+            if (!auto.classList.contains('active')) {
+                inc.classList.add('disabled');
+                dec.classList.add('disabled');
+                reset.classList.add('disabled');
+
+                auto.classList.add('active');
+
+                myInterval = setInterval(() => {
+                    counterval = counterval + 1;
+                    count.innerText = counterval;
+                }, 1000)
+            } else {
+                auto.classList.remove('active');
+
+                inc.classList.remove('disabled');
+                dec.classList.remove('disabled');
+                reset.classList.remove('disabled');
+
+                clearInterval(myInterval);
+                counterval = 0;
+                count.innerText = counterval;
+            }
+        });
+    </script>
+</body>
+
+</html>
