@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        #commentForm textarea {
+            width: 100%;
+            max-width: 600px;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+
+        #commentForm button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #005a9c;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #commentForm button:hover {
+            background-color: #003d73;
+        }
+
+        .comment,
+        .reply {
+            background-color: #ffffff;
+            margin: 10px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+        }
+
+        .comment:hover,
+        .reply:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .comment .replyBtn,
+        .comment .toggleReplies {
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .comment .replyBtn:hover,
+        .comment .toggleReplies:hover {
+            background-color: #0056b3;
+        }
+
+        .repliesContainer {
+            margin-top: 20px;
+        }
+
+        .replyInput {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: vertical;
+            display: none;
+            /* Initially hide the reply input */
+        }
+
+        .comment:hover .replyInput {
+            display: block;
+            /* Show reply input on comment hover */
+        }
+
+        .collapsed {
+            display: none;
+        }
+
+        .repliesContainer {
+            padding-left: 20px;
+            border-left: 3px solid #eee;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="commentForm">
+        <textarea id="commentInput" placeholder="Write a comment..."></textarea>
+        <button id="submitComment">Comment</button>
+    </div>
+
+    <div id="commentsContainer"></div>
+
+    <script>
+        const commentInput = document.querySelector('#commentInput');
+        const submitComment = document.querySelector('#submitComment');
+        const commentForm = document.querySelector('#commentForm');
+        const commentsContainer = document.querySelector('#commentsContainer');
+
+        const addComment = (val) => {
+            const comment = document.createElement('div');
+            comment.classList.add("comment")
+            comment.innerHTML = `
+            <p>${val}</p>
+            <button class="replyBtn">Reply</button>
+            <div class="repliesContainer">  
+            </div>
+            <textarea class="replyInput" placeholder="Write a reply..."></textarea>
+            `;
+
+            commentsContainer.appendChild(comment);
+        }
+
+        const addReply = (replyText, element) => {
+                const repliesContainer = element.querySelector('.repliesContainer');
+                const newReply = document.createElement('div');
+                newReply.classList.add('reply');
+                newReply.innerHTML = `
+                <p>${replyText}</p> 
+                `
+                repliesContainer.appendChild(newReply);
+            }
+
+        submitComment.addEventListener('click', (e) => {
+            e.preventDefault();
+            const commentText = commentInput.value.trim();
+            if (commentText) {
+                addComment(commentText);
+                commentInput.value = '';
+            }
+        })
+
+
+        commentsContainer.addEventListener('click', (e) => {
+            const element = e.currentTarget;
+            const commentElement = e.target.closest('.comment');
+            if (e.target.nodeName === 'BUTTON' && e.target.innerText === 'Reply') {
+                const replyText = commentElement.querySelector('.replyInput').value.trim();
+
+                if (replyText) {
+                    addReply(replyText, commentElement);
+                    commentElement.querySelector('.replyInput').value = '';
+                }
+            }
+        })
+
+    </script>
+
+</body>
+
+</html>

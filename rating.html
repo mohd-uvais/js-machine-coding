@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .rating {
+            text-align: center;
+        }
+
+        .star {
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .star.filled {
+            color: gold;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="rating">
+        <!-- Display five stars, each with a data-value attribute representing its rating value -->
+        <span id="stars">
+            <span class="star" id="1">&#9733;</span>
+            <span class="star" id="2">&#9733;</span>
+            <span class="star" id="3">&#9733;</span>
+            <span class="star" id="4">&#9733;</span>
+            <span class="star" id="5">&#9733;</span>
+        </span>
+        <!-- Display the current rating -->
+        <p>Rating: <span id="rating">0</span>/5</p>
+    </div>
+    <script>
+        const stars = document.querySelector('#stars');
+        const rating = document.querySelector('#rating');
+        stars.addEventListener('click', (e) => {
+            const element = e.target;
+            rating.innerText = element.id;
+
+            for (let i = 5; i >= 0; i--) {
+                if (i <= parseInt(element.id)) {
+                    document.getElementById(`${i}`)?.classList.add('filled');
+                } else {
+                    if (document.getElementById(`${i}`)?.classList.contains('filled')) {
+                        document.getElementById(`${i}`)?.classList.remove('filled');
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

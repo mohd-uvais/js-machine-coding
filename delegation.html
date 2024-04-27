@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delegation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .color-box {
+            width: 150px;
+            height: 200px;
+            padding: 10px;
+        }
+
+        #colorPalette {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="colorPalette">
+        <div class="color-box" style="background-color: red;">Red</div>
+        <div class="color-box" style="background-color: green;">Green</div>
+        <div class="color-box" style="background-color: blue;">Blue</div>
+        <div class="color-box" style="background-color: red;">Red</div>
+        <div class="color-box" style="background-color: green;">Green</div>
+        <div class="color-box" style="background-color: blue;">Blue</div>
+    </div>
+
+    <script>
+        const parent = document.querySelector('#colorPalette');
+
+        const colorsArray = ['blue', 'green', 'orange', 'yellow', 'red', 'violet', 'pink', 'magenta'];
+
+        parent.addEventListener('click', (e) => {
+            const element = e.target;
+            if (element.id !== 'colorPalette') {
+                const name = element.innerText;
+                const currentColor = element.style.backgroundColor;
+
+                const filteredColorsArray = colorsArray.filter((color) => !(color.toLowerCase() === currentColor.toLowerCase() || color.toLowerCase() === name.toLowerCase()));
+                element.style.backgroundColor = filteredColorsArray[Math.floor(Math.random() * filteredColorsArray.length)]
+            }
+        });
+    </script>
+</body>
+
+</html>
